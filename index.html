@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CG-AI Activation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            line-height: 1.5;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 25px 20px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: clamp(20px, 5vw, 24px);
+            margin-bottom: 8px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: clamp(14px, 3.5vw, 16px);
+        }
+        
+        .notice {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        
+        .notice h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: clamp(15px, 4vw, 16px);
+            font-weight: 600;
+        }
+        
+        .notice p {
+            color: #666;
+            font-size: clamp(13px, 3.5vw, 14px);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .notice p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .purchase-info {
+            background-color: #e8f5e8;
+            border-left: 4px solid #4CAF50;
+            padding: 15px 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        
+        .purchase-info h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: clamp(15px, 4vw, 16px);
+            font-weight: 600;
+        }
+        
+        .purchase-details {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .purchase-details:last-child {
+            margin-bottom: 0;
+        }
+        
+        .purchase-date, .purchase-amount {
+            font-weight: 600;
+            color: #333;
+            font-size: clamp(13px, 3.5vw, 14px);
+        }
+        
+        .purchase-amount {
+            color: #4CAF50;
+        }
+        
+        .credentials {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 18px 15px;
+            margin-bottom: 20px;
+        }
+        
+        .credential-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .credential-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .credential-label {
+            font-weight: 600;
+            color: #333;
+            font-size: clamp(14px, 3.5vw, 15px);
+        }
+        
+        .credential-value {
+            background-color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            font-family: monospace;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .credential-text {
+            flex: 1;
+            font-size: clamp(14px, 3.5vw, 15px);
+            word-break: break-all;
+            padding-right: 10px;
+        }
+        
+        .copy-btn {
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: clamp(12px, 3vw, 13px);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .copy-btn:hover {
+            background-color: #3a5ce5;
+            transform: translateY(-1px);
+        }
+        
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .status-item {
+            text-align: center;
+            flex: 1;
+            padding: 15px 8px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .status-value {
+            font-size: clamp(24px, 6vw, 32px);
+            font-weight: 800;
+            color: #4a6cf7;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        
+        .status-label {
+            font-size: clamp(12px, 3vw, 14px);
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .expiry {
+            color: #666;
+            font-size: clamp(13px, 3.5vw, 14px);
+            text-align: center;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .code-section {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px 15px;
+            background: transparent;
+            border-radius: 12px;
+            color: #333;
+        }
+
+        .code {
+            font-size: clamp(28px, 8vw, 42px);
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #333;
+            margin-bottom: 12px;
+            font-family: monospace;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: none;
+        }
+
+        .code-info {
+            color: #666;
+            font-size: clamp(13px, 3.5vw, 15px);
+            margin-bottom: 8px;
+        }
+
+        .sync-status {
+            font-size: clamp(11px, 3vw, 12px);
+            color: #666;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .proxy-status {
+            margin-top: 8px;
+            font-size: clamp(10px, 2.8vw, 11px);
+            color: #4CAF50;
+            background: #f0f9f0;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            backdrop-filter: none;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            font-size: clamp(12px, 3.2vw, 14px);
+            margin-top: 8px;
+            background: #ffe6e6;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .success {
+            color: #51cf66;
+            font-size: clamp(11px, 3vw, 12px);
+            margin-top: 5px;
+        }
+        
+        .retry-btn {
+            background-color: #ffa94d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: clamp(13px, 3.5vw, 14px);
+            margin-top: 12px;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        
+        .retry-btn:hover {
+            background-color: #ff922b;
+            transform: translateY(-1px);
+        }
+        
+        .connection-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .connected {
+            background-color: #51cf66;
+            animation: pulse 2s infinite;
+        }
+        
+        .disconnected {
+            background-color: #ff6b6b;
+        }
+        
+        .pricing {
+            background-color: #f0f7ff;
+            border-radius: 12px;
+            padding: 20px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #dbeafe;
+        }
+        
+        .pricing h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 18px;
+            font-size: clamp(15px, 4vw, 17px);
+            font-weight: 700;
+        }
+        
+        .price-plans {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .price-plan {
+            background: white;
+            padding: 15px 10px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .price-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .price-plan.recommended {
+            border: 2px solid #4a6cf7;
+            background: linear-gradient(135deg, #f8faff 0%, #e3f2fd 100%);
+            position: relative;
+        }
+        
+        .price-plan.recommended::before {
+            content: "The active plan";
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4a6cf7;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        
+        .plan-duration {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: clamp(14px, 3.5vw, 16px);
+        }
+        
+        .plan-price {
+            font-size: clamp(18px, 5vw, 22px);
+            font-weight: 800;
+            color: #4CAF50;
+            margin-bottom: 4px;
+        }
+        
+        .plan-savings {
+            font-size: clamp(11px, 2.8vw, 12px);
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .support-contact {
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+            margin-top: 10px;
+        }
+
+        .support-contact div {
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .support-contact a {
+            color: #4a6cf7;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #4a6cf7;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .support-contact a:hover {
+            background: #4a6cf7;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 20px 15px; }
+            .status { gap: 8px; }
+            .status-item { padding: 12px 6px; }
+            .price-plans { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <div class="header">
+            <h1>Your Subscription (Plus) • ChatGpt-AI Activation (Douae Sabgui)</h1>
+            <p>Activation successful! Use the credentials below on the official CG-AI website and app.</p>
+        </div>
+        
+        <div class="notice">
+            <h3>Important Notice:</h3>
+            <p>Do not invite any new team members and do not share this access link with other people.</p>
+            <p>We only sell on oxsam.com. We have no link with any third-party sellers. Beware of fraud.</p>
+        </div>
+        
+        <div class="purchase-info">
+            <h3>Purchase Information</h3>
+            <div class="purchase-details">
+                <span class="purchase-date">Purchased: 23/11/2025 13:17</span>
+                <span class="purchase-amount">Amount: $8.00</span>
+            </div>
+            <div class="purchase-details">
+                <span>Plan: 3 Months</span>
+                <span>Savings: 47%</span>
+            </div>
+        </div>
+        
+        <div class="credentials">
+            <div class="credential-item">
+                <div class="credential-label">Email</div>
+                <div class="credential-value">
+                    <span class="credential-text" id="email">mintoxaam25@oxaam.com</span>
+                    <button class="copy-btn" onclick="copyToClipboard('email')">Copy</button>
+                </div>
+            </div>
+            <div class="credential-item">
+                <div class="credential-label">Password</div>
+                <div class="credential-value">
+                    <span class="credential-text" id="password">oxaam0945586</span>
+                    <button class="copy-btn" onclick="copyToClipboard('password')">Copy</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status">
+            <div class="status-item">
+                <div class="status-value" id="days">90</div>
+                <div class="status-label">Days</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="hours">0</div>
+                <div class="status-label">Hours</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="minutes">0</div>
+                <div class="status-label">Minutes</div>
+            </div>
+        </div>
+        
+        <div class="expiry" id="expiry-text">Expires on 23 Feb 2026, 13:17</div>
+        
+        <div class="code-section">
+            <div class="code" id="code">
+                <span class="loading" id="code-loading">Fetching real-time code...</span>
+                <span id="code-value" style="display: none;"></span>
+            </div>
+            <div class="code-info" id="code-info">
+                <span id="code-countdown">Updating code...</span>
+            </div>
+            <div class="sync-status" id="sync-status">
+                <span class="connection-indicator connected" id="connection-indicator"></span>
+                <span id="status-text">Connecting to service...</span>
+            </div>
+            <div class="proxy-status" id="proxy-status">Initializing connection...</div>
+            <div class="error" id="code-error" style="display: none;"></div>
+            <div class="success" id="code-success" style="display: none;"></div>
+            <button class="retry-btn" id="retry-btn" style="display: none;" onclick="manualRetry()">Retry Connection</button>
+        </div>
+        
+        <div class="pricing">
+            <h3>Renewal Plans</h3>
+            <div class="price-plans">
+                <div class="price-plan">
+                    <div class="plan-duration">1 Month</div>
+                    <div class="plan-price">$5.00</div>
+                    <div class="plan-savings">Standard</div>
+                </div>
+                <div class="price-plan recommended">
+                    <div class="plan-duration">3 Months</div>
+                    <div class="plan-price">$8.00</div>
+                    <div class="plan-savings">Save 47%</div>
+                </div>
+                <div class="price-plan">
+                    <div class="plan-duration">6 Months</div>
+                    <div class="plan-price">$12.00</div>
+                    <div class="plan-savings">Save 60%</div>
+                </div>
+                <div class="price-plan">
+                    <div class="plan-duration">1 Year</div>
+                    <div class="plan-price">$20.00</div>
+                    <div class="plan-savings">Save 67%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="help-link">
+            <div class="support-contact">
+                <div>If you are experiencing any issues or would like to make a purchase, please contact:</div>
+                <a href="mailto:contactoxaam@gmail.com">contactoxaam@gmail.com</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const TARGET_URL = 'https://www.oxaam.com/serviceaccess.php?activation_key=HY5NJTB9AGFLGS9';
+        
+        // Try multiple endpoints in order
+        const ENDPOINTS = [
+            '/api/proxy',  // Local Vercel function
+            'https://your-vercel-app.vercel.app/api/proxy', // Your deployed function
+            `https://cors-proxy.byteoftech.workers.dev/?url=${encodeURIComponent(TARGET_URL)}`,
+            `https://api.allorigins.win/raw?url=${encodeURIComponent(TARGET_URL)}`
+        ];
+
+        // Application state
+        let currentCode = null;
+        let countdownValue = 30;
+        let isFetching = false;
+        let currentEndpointIndex = 0;
+        let consecutiveFailures = 0;
+
+        function getCurrentEndpoint() {
+            return ENDPOINTS[currentEndpointIndex];
+        }
+
+        function rotateEndpoint() {
+            currentEndpointIndex = (currentEndpointIndex + 1) % ENDPOINTS.length;
+            console.log('Rotating to endpoint:', getCurrentEndpoint());
+            updateProxyStatus();
+            return getCurrentEndpoint();
+        }
+
+        function updateProxyStatus() {
+            const statusElement = document.getElementById('proxy-status');
+            const endpoint = getCurrentEndpoint();
+            
+            if (endpoint.includes('/api/proxy')) {
+                statusElement.textContent = 'Using local proxy • Secure';
+            } else if (endpoint.includes('workers.dev')) {
+                statusElement.textContent = 'Using Cloudflare proxy • Secure';
+            } else if (endpoint.includes('allorigins.win')) {
+                statusElement.textContent = 'Using backup proxy • Secure';
+            } else {
+                statusElement.textContent = 'Using proxy service • Secure';
+            }
+        }
+
+        async function fetchRealCode() {
+            if (isFetching) return null;
+            isFetching = true;
+
+            const endpoint = getCurrentEndpoint();
+            let fetchUrl = endpoint;
+
+            // For CORS proxies that need URL as parameter
+            if (endpoint.includes('?url=') || endpoint.includes('/raw?url=')) {
+                // URL is already included in the endpoint
+            } else if (!endpoint.includes('/api/proxy')) {
+                // For other proxies that need the URL appended
+                fetchUrl = endpoint + encodeURIComponent(TARGET_URL);
+            }
+
+            try {
+                // Update UI
+                document.getElementById('retry-btn').style.display = 'none';
+                document.getElementById('code-error').style.display = 'none';
+                document.getElementById('status-text').textContent = 'Syncing with service...';
+                document.getElementById('connection-indicator').className = 'connection-indicator connected';
+                
+                console.log('🔍 Fetching from:', fetchUrl);
+                
+                const response = await fetch(fetchUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'Cache-Control': 'no-cache'
+                    },
+                    signal: AbortSignal.timeout(15000)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const html = await response.text();
+                
+                if (!html || html.length < 50) {
+                    throw new Error('Empty or invalid response');
+                }
+
+                // Parse the code from HTML
+                const code = extractCodeFromHTML(html);
+                
+                if (!code) {
+                    throw new Error('Code not found in response');
+                }
+
+                console.log('✅ Code retrieved:', code);
+                updateCodeDisplaySuccess(code);
+                consecutiveFailures = 0;
+                
+                return code;
+
+            } catch (error) {
+                console.error('❌ Fetch failed:', error);
+                return handleFetchError(error);
+            } finally {
+                isFetching = false;
+            }
+        }
+
+        function extractCodeFromHTML(html) {
+            // Method 1: Try to find code in specific elements
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            
+            let codeElement = tempDiv.querySelector('#totp-code') || 
+                             tempDiv.querySelector('.fw-bold.text-primary') ||
+                             tempDiv.querySelector('.code') ||
+                             tempDiv.querySelector('.totp-code');
+            
+            if (codeElement) {
+                const code = codeElement.textContent.trim();
+                if (code.match(/^\d{6}$/)) return code;
+            }
+
+            // Method 2: Regex search for 6-digit code
+            const codeMatch = html.match(/\b\d{6}\b/);
+            if (codeMatch) {
+                return codeMatch[0];
+            }
+
+            return null;
+        }
+
+        function updateCodeDisplaySuccess(code) {
+            document.getElementById('code-loading').style.display = 'none';
+            document.getElementById('code-value').textContent = code;
+            document.getElementById('code-value').style.display = 'inline';
+            document.getElementById('status-text').textContent = `Last sync: ${new Date().toLocaleTimeString()}`;
+            document.getElementById('connection-indicator').className = 'connection-indicator connected';
+            
+            currentCode = code;
+            countdownValue = 30;
+        }
+
+        function handleFetchError(error) {
+            consecutiveFailures++;
+            
+            // Rotate endpoint after failures
+            if (consecutiveFailures >= 2) {
+                rotateEndpoint();
+            }
+
+            document.getElementById('code-error').textContent = 
+                `Sync issue: ${error.message}. Trying alternative method...`;
+            document.getElementById('code-error').style.display = 'block';
+            document.getElementById('status-text').textContent = 'Connection issue';
+            document.getElementById('connection-indicator').className = 'connection-indicator disconnected';
+            document.getElementById('retry-btn').style.display = 'inline-block';
+
+            // Show fallback message
+            if (consecutiveFailures > ENDPOINTS.length) {
+                document.getElementById('code-error').innerHTML = 
+                    'Unable to fetch real-time code. <br>Please contact support for manual code generation.';
+            }
+
+            return null;
+        }
+
+        async function manualRetry() {
+            rotateEndpoint();
+            await fetchRealCode();
+        }
+
+        // Countdown and initialization functions remain the same as before
+        function updateCountdown() {
+            const expiryDate = new Date('2026-02-23T13:17:00');
+            const now = new Date().getTime();
+            const timeLeft = expiryDate - now;
+            
+            if (timeLeft <= 0) {
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('expiry-text').textContent = 'Subscription Expired';
+                document.getElementById('expiry-text').style.color = '#f44336';
+                return;
+            }
+            
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+        }
+
+        function updateCodeCountdown() {
+            countdownValue--;
+            
+            if (countdownValue <= 5) {
+                document.getElementById('code-countdown').textContent = 'Updating code soon...';
+                if (countdownValue <= 0) {
+                    countdownValue = 30;
+                    fetchRealCode();
+                }
+            } else {
+                document.getElementById('code-countdown').textContent = `New code in ${countdownValue}s`;
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                button.textContent = 'Copied!';
+                button.style.background = '#4CAF50';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.style.background = '#4a6cf7';
+                }, 2000);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 Initializing CG-AI Activation Page...');
+            updateProxyStatus();
+            await fetchRealCode();
+            updateCountdown();
+            
+            setInterval(updateCountdown, 1000);
+            setInterval(updateCodeCountdown, 1000);
+            setInterval(() => {
+                if (countdownValue > 10) fetchRealCode();
+            }, 30000);
+        });
+
+        // Add timeout support for older browsers
+        if (!AbortSignal.timeout) {
+            AbortSignal.timeout = function(ms) {
+                const controller = new AbortController();
+                setTimeout(() => controller.abort(), ms);
+                return controller.signal;
+            };
+        }
+    </script>
+</body>
+</html>
+
